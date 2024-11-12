@@ -1,0 +1,23 @@
+Optimizar la recolección de basura en Go puede mejorar el rendimiento, especialmente en aplicaciones de alto rendimiento o con requisitos de memoria específicos. Aquí algunos consejos y buenas prácticas:
+
+1. Minimizar la Generación de Objetos
+Evita crear objetos temporales innecesarios, ya que generan más trabajo para el recolector de basura (GC).
+Usa estructuras reutilizables o pools para evitar instancias nuevas en cada operación (por ejemplo, sync.Pool).
+2. Evitar el Uso Extensivo de Variables Globales
+Aunque las variables globales pueden parecer convenientes, mantenerlas en memoria innecesariamente puede hacer que se vuelvan "viejas", y el GC tendrá que revisarlas continuamente, aumentando el tiempo de pausa.
+3. Usar Estructuras de Datos Eficientes
+Usa tipos de datos adecuados en lugar de estructuras grandes si solo necesitas información limitada.
+Si es posible, usa tipos de datos de tamaño fijo como arrays sobre slices cuando se conoce el tamaño de antemano.
+4. Manejo de Objetos Pequeños
+Crear muchos objetos pequeños incrementa la carga del GC. Intenta agrupar estos objetos en estructuras más grandes cuando sea posible.
+5. Liberación de Recursos en Tiempo
+Usa runtime.SetFinalizer solo cuando sea absolutamente necesario. Es preferible liberar recursos manualmente o implementar patrones de Close() en lugar de depender del recolector.
+6. Usar sync.Pool para Objetos de Uso Frecuente
+sync.Pool permite reutilizar objetos en lugar de crear y recolectar memoria constantemente. Esto es especialmente útil en aplicaciones que necesitan instancias temporales o de corta vida.
+7. Controlar la Frecuencia del GC
+Ajusta la frecuencia del recolector de basura en caso de que necesites controlar el uso de la memoria y el rendimiento con la variable GOGC. Valores más altos reducen la frecuencia del GC, lo cual puede ayudar en aplicaciones con alto rendimiento, pero con suficiente memoria disponible.
+8. Evitar Estructuras de Datos Complejas en Background
+Ten cuidado con las goroutines y datos compartidos en segundo plano que retienen referencias a objetos. Esto puede hacer que el GC tenga que revisarlos aunque no sean necesarios, incrementando el tiempo de trabajo.
+9. Usar Canales y Funciones con Cuidado
+Mantener referencias en canales puede evitar que el GC libere objetos, especialmente si los canales están bloqueados o tienen acumulación de mensajes.
+Con estos consejos y el monitoreo del comportamiento de memoria en tu aplicación, podrás controlar mejor el uso de memoria y ajustar el rendimiento de la recolección de basura según tus necesidades.

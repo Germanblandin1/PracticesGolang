@@ -1,0 +1,13 @@
+Unsafe code nos permite usar punteros inseguros, que son basicamente muy parecidos a los de C.
+
+Podriamos cambiar de tipos de datos rapidamente
+
+Sin embargo obviamente es peligroso por que ignora las verificaciones basicas como que los valores de la conversion tengan sentido.
+
+uintptr(puntero_unsafe) sirve para darnos un entero que representa al puntero, esto nos permite hacer aritmetica de punteros.
+
+Sin embargo como esto es solo un entero, el GC podria recolectar o mover la memoria a la que "apunta" por que realmente no esta apuntando
+solo guarda el entero donde esta en memoria.
+
+No se recomienda su uso a menos que sea breve en una linea, o que deseemos usar el entero pero no usemos la referencia como tal.
+

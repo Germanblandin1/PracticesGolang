@@ -1,2 +1,3 @@
 # PracticesGolang
-Practice exercises in golang
+
+Repositorio para agregar practicas y ejercicios de Golang.
